@@ -1,9 +1,9 @@
-package servicio;
+package user_management_web.servicio;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import user_management.modelo.Usuario;
-import user_management.repositorio.UsuarioRepositorio;
+import user_management_web.modelo.Usuario;
+import user_management_web.repositorio.UsuarioRepositorio;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
-package servicio;
+package user_management_web.servicio;
 
-import user_management.modelo.Usuario;
+import user_management_web.modelo.Usuario;
 
 import java.util.List;
 

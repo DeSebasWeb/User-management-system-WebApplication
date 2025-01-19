@@ -1,4 +1,4 @@
-package modelo;
+package user_management_web.modelo;
 
 import jakarta.persistence.*;
 
