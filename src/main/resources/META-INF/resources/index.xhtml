@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<h:html xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Sistema de manejo de usuarios(GYM)</title>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
+    </h:head>
+
+    <h:body>
+        <div class="card">
+            <h:form id="formulario-usuarios">
+                <p:growl id="mensajes" showDetails="true"/>
+                <div class="card">
+                    <p:menubar>
+                        <p:menuitem value="Inicio" icon="pi pi-fw pi-id-card" update=":formulario-usuarios:usuarios-tabla" actionListener="#{indexControlador.cargarDatos}"/>
+                        <p:menuitem value="Crear usuario" icon="pi pi-fw pi-user-plus"/>
+                    </p:menubar>
+                </div>
+                <div class="flex justify-content-center flex-wrap card-container #0867c6-container">
+                    <div class="flex align-items-center justify-content-center w-20rem h-4rem bg-blue-500 font-bold text-white-900 border-round m-2">
+                        <h3>Sistema de manejo de usuarios(GYM)</h3>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <p:dataTable value="#{indexControlador.usuarios}" var="usuario" id="usuarios-tabla" widgetVar="clientesTabla">
+                        <p:column headerText="Id">
+                            <h:outputText value="#{usuario.id}"/>
+                        </p:column>
+                        <p:column headerText="Cedula">
+                            <h:outputText value="#{usuario.cedula}"/>
+                        </p:column>
+                        <p:column headreText="Nombre">
+                            <h:outputText value="#{usuario.nombre}"/>
+                        </p:column>
+                        <p:column headerText="Apellido">
+                            <h:outputText value="#{usuario.apellido}"/>
+                        </p:column>
+                        <p:column headerText="Tipo Membresia">
+                            <h:outputText value="#{usuario.membresia}"/>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+
+            </h:form>
+        </div>
+
+
+
+    </h:body>
+
+</h:html>
