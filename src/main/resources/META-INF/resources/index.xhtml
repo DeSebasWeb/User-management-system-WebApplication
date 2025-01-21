@@ -14,8 +14,15 @@
                 <p:growl id="mensajes" showDetails="true"/>
                 <div class="card">
                     <p:menubar>
-                        <p:menuitem value="Inicio" icon="pi pi-fw pi-id-card" update=":formulario-usuarios:usuarios-tabla" actionListener="#{indexControlador.cargarDatos}"/>
-                        <p:menuitem value="Crear usuario" icon="pi pi-fw pi-user-plus"/>
+                        <p:menuitem value="Inicio"
+                                    icon="pi pi-fw pi-id-card"
+                                    update=":formulario-usuarios:usuarios-tabla"
+                                    actionListener="#{indexControlador.cargarDatos}"/>
+                        <p:menuitem value="Crear usuario"
+                                    icon="pi pi-fw pi-user-plus"
+                                    actionListener="#{indexControlador.crearUsuario}"
+                                    update=":formulario-creacion:ventana-crear"
+                                    oncomplete="PF('ventanaCrearUsuarios').show()"/>
                     </p:menubar>
                 </div>
                 <div class="flex justify-content-center flex-wrap card-container #0867c6-container">
@@ -23,7 +30,7 @@
                         <h3>Sistema de manejo de usuarios(GYM)</h3>
                     </div>
                 </div>
-
+<!--Tabla de usuarios   -->
                 <div class="card">
                     <p:dataTable value="#{indexControlador.usuarios}" var="usuario" id="usuarios-tabla" widgetVar="clientesTabla">
                         <p:column headerText="Id">
@@ -43,12 +50,43 @@
                         </p:column>
                     </p:dataTable>
                 </div>
+            </h:form>
 
+            <h:form id="formulario-creacion">
+                <p:dialog header="Crear un usuario"
+                          showEffect="fade"
+                          modal="true"
+                          widgetVar="ventanaCrearUsuarios"
+                          responsive="true">
+
+                    <p:outputPanel id="ventana-crear" class="ui-fluid">
+                        <div class="field">
+                            <p:outputLabel for="cedula">Cedula:</p:outputLabel>
+                            <p:inputNumber id="cedula" value="#{indexControlador.usuario.cedula}" required="true"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="nombre">Nombre:</p:outputLabel>
+                            <p:inputText id="nombre" value="#{indexControlador.usuario.nombre}" required="true"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="apellido">Apellido:</p:outputLabel>
+                            <p:inputText id="apellido" value="#{indexControlador.usuario.apellido}"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="membresia">Membresia</p:outputLabel>
+                            <p:selectOneMenu id="membresia" value="#{indexControlador.usuario.membresia}">
+                                <f:selectItem itemLabel="Seleccione un plan" itemValue="inactivo"/>
+                                <f:selectItem itemLabel="Basico" itemValue="Basico"/>
+                                <f:selectItem itemLabel="Premium" itemValue="Premium"/>
+                            </p:selectOneMenu>
+                        </div>
+                    </p:outputPanel>
+                    <f:facet name="footer">
+                        <p:commandButton value="Guardar" icon="pi pi-save" process="ventana-crear @this" actionListener="#{indexControlador.guardarUsuario}"/>
+                        <p:commandButton value="Cancelar" icon="pi pi-times-circle" onclick="PF(ventanaCrearUsuarios).hide()" class="ui-button-secondary"/>
+                    </f:facet>
+                </p:dialog>
             </h:form>
         </div>
-
-
-
     </h:body>
-
 </h:html>

@@ -19,6 +19,7 @@ import java.util.List;
 public class IndexControlador {
     @Autowired
     IUsuarioServicio usuarioServicio;
+    private Usuario usuario;
     private List<Usuario> usuarios;
 
     private static final Logger logger = LoggerFactory.getLogger(IndexControlador.class);
@@ -32,4 +33,13 @@ public class IndexControlador {
         this.usuarios = this.usuarioServicio.mostrarUsuarios();
         this.usuarios.forEach(usuario -> logger.info(usuario.toString()));
     }
+
+    public void crearUsuario(){
+        this.usuario = new Usuario();
+    }
+
+    public void guardarUsuario(){
+
+    }
+
 }
