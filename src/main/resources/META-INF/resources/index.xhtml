@@ -21,7 +21,7 @@
                         <p:menuitem value="Crear usuario"
                                     icon="pi pi-fw pi-user-plus"
                                     actionListener="#{indexControlador.crearUsuario}"
-                                    update=":formulario-creacion:ventana-crear"
+                                    update=":formularios:ventana-crear"
                                     oncomplete="PF('ventanaCrearUsuarios').show()"/>
                     </p:menubar>
                 </div>
@@ -39,7 +39,7 @@
                         <p:column headerText="Cedula">
                             <h:outputText value="#{usuario.cedula}"/>
                         </p:column>
-                        <p:column headreText="Nombre">
+                        <p:column headerText="Nombre">
                             <h:outputText value="#{usuario.nombre}"/>
                         </p:column>
                         <p:column headerText="Apellido">
@@ -52,7 +52,7 @@
                 </div>
             </h:form>
 
-            <h:form id="formulario-creacion">
+            <h:form id="formularios">
                 <p:dialog header="Crear un usuario"
                           showEffect="fade"
                           modal="true"
@@ -62,7 +62,7 @@
                     <p:outputPanel id="ventana-crear" class="ui-fluid">
                         <div class="field">
                             <p:outputLabel for="cedula">Cedula:</p:outputLabel>
-                            <p:inputNumber id="cedula" value="#{indexControlador.usuario.cedula}" required="true"/>
+                            <p:inputNumber id="cedula" value="#{indexControlador.usuario.cedula}" mode="decimal" decimalPlaces="0" thousandSeparator="" symbol="" required="true" format="false"/>
                         </div>
                         <div class="field">
                             <p:outputLabel for="nombre">Nombre:</p:outputLabel>
@@ -83,9 +83,12 @@
                     </p:outputPanel>
                     <f:facet name="footer">
                         <p:commandButton value="Guardar" icon="pi pi-save" process="ventana-crear @this" actionListener="#{indexControlador.guardarUsuario}"/>
-                        <p:commandButton value="Cancelar" icon="pi pi-times-circle" onclick="PF(ventanaCrearUsuarios).hide()" class="ui-button-secondary"/>
+                        <p:commandButton value="Cancelar" icon="pi pi-times-circle" onclick="PF(ventanaCrearUsuarios).hide(); return false;" class="ui-button-secondary" />
                     </f:facet>
                 </p:dialog>
+                <p:confirmDialog header="Confirmar" message="Seguro que quiere eliminar este usuario?" height="400">
+
+                </p:confirmDialog>
             </h:form>
         </div>
     </h:body>

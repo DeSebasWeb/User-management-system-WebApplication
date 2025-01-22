@@ -1,8 +1,11 @@
 package user_management_web.controlador;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import lombok.Data;
+import org.primefaces.PrimeFaces;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +42,15 @@ public class IndexControlador {
     }
 
     public void guardarUsuario(){
-
+        logger.info("Usuario a guardar: "+ this.usuario);
+        if (this.usuario.getId()== null){
+            this.usuarioServicio.guardarUsuario(this.usuario);
+            this.usuarios.add(usuario);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Nuevo usuario"));
+        }
+        PrimeFaces.current().executeScript("PF('ventanaCrearUsuarios').hide()");
+        PrimeFaces.current().ajax().update("formulario-usuarios:mensajes", "formulario-usuarios:usuarios-tabla");
+        this.usuario=null;
     }
 
 }
