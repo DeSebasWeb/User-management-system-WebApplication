@@ -10,85 +10,56 @@
 
     <h:body>
         <div class="card">
-            <h:form id="formulario-usuarios">
-                <p:growl id="mensajes" showDetails="true"/>
-                <div class="card">
-                    <p:menubar>
-                        <p:menuitem value="Inicio"
-                                    icon="pi pi-fw pi-id-card"
-                                    update=":formulario-usuarios:usuarios-tabla"
-                                    actionListener="#{indexControlador.cargarDatos}"/>
-                        <p:menuitem value="Crear usuario"
-                                    icon="pi pi-fw pi-user-plus"
-                                    actionListener="#{indexControlador.crearUsuario}"
-                                    update=":formularios:ventana-crear"
-                                    oncomplete="PF('ventanaCrearUsuarios').show()"/>
-                    </p:menubar>
-                </div>
-                <div class="flex justify-content-center flex-wrap card-container #0867c6-container">
-                    <div class="flex align-items-center justify-content-center w-20rem h-4rem bg-blue-500 font-bold text-white-900 border-round m-2">
-                        <h3>Sistema de manejo de usuarios(GYM)</h3>
+            <h:form id="formulario-aparicion-clientes">
+                <p:growl id="mensajes" showDetails="true">
+<!--                    Menu-->
+                    <div class="card">
+                        <p:menubar hideDelay="1000">
+                            <f:facet name="start">
+                                <p:graphicImage name="resources/Logo1.png" library="resources" style="width: 50px; height: 50px;"/>
+                            </f:facet>
+                            <p:menuitem value="Usuarios" icon="pi pi-fw pi-user" update="" actionListener="#{indexControlador.cargarUsuarios}"/>
+                            <p:menuitem value="Nuevo" icon="pi pi-fw pi-user-plus" />
+                            <p:menuitem value="Linkedin" icon="pi pi-fw pi-linkedin" url="https://www.linkedin.com/in/sebastián-lópez-hernandez-304179282/"/>
+                            <p:menuitem value="GitHub" icon="pi pi-fw pi-github" url="https://github.com/DeSebasWeb"/>
+                        </p:menubar>
                     </div>
-                </div>
-<!--Tabla de usuarios   -->
-                <div class="card">
-                    <p:dataTable value="#{indexControlador.usuarios}" var="usuario" id="usuarios-tabla" widgetVar="clientesTabla">
-                        <p:column headerText="Id">
-                            <h:outputText value="#{usuario.id}"/>
-                        </p:column>
-                        <p:column headerText="Cedula">
-                            <h:outputText value="#{usuario.cedula}"/>
-                        </p:column>
-                        <p:column headerText="Nombre">
-                            <h:outputText value="#{usuario.nombre}"/>
-                        </p:column>
-                        <p:column headerText="Apellido">
-                            <h:outputText value="#{usuario.apellido}"/>
-                        </p:column>
-                        <p:column headerText="Tipo Membresia">
-                            <h:outputText value="#{usuario.membresia}"/>
-                        </p:column>
-                    </p:dataTable>
-                </div>
-            </h:form>
-
-            <h:form id="formularios">
-                <p:dialog header="Crear un usuario"
-                          showEffect="fade"
-                          modal="true"
-                          widgetVar="ventanaCrearUsuarios"
-                          responsive="true">
-
-                    <p:outputPanel id="ventana-crear" class="ui-fluid">
-                        <div class="field">
-                            <p:outputLabel for="cedula">Cedula:</p:outputLabel>
-                            <p:inputNumber id="cedula" value="#{indexControlador.usuario.cedula}" mode="decimal" decimalPlaces="0" thousandSeparator="" symbol="" required="true" format="false"/>
+<!--                    Titulo-->
+                    <div class="flex justify-content-center flex-wrap card-container blue-container">
+                        <div class="flex align-items-center justify-content-center w-20rem h-4rem font-bold text-white-900 border-round m-2" style="background-color: #5E8DC4">
+                            <h3>Sistema de manejo de usuarios</h3>
                         </div>
-                        <div class="field">
-                            <p:outputLabel for="nombre">Nombre:</p:outputLabel>
-                            <p:inputText id="nombre" value="#{indexControlador.usuario.nombre}" required="true"/>
-                        </div>
-                        <div class="field">
-                            <p:outputLabel for="apellido">Apellido:</p:outputLabel>
-                            <p:inputText id="apellido" value="#{indexControlador.usuario.apellido}"/>
-                        </div>
-                        <div class="field">
-                            <p:outputLabel for="membresia">Membresia</p:outputLabel>
-                            <p:selectOneMenu id="membresia" value="#{indexControlador.usuario.membresia}">
-                                <f:selectItem itemLabel="Seleccione un plan" itemValue="inactivo"/>
-                                <f:selectItem itemLabel="Basico" itemValue="Basico"/>
-                                <f:selectItem itemLabel="Premium" itemValue="Premium"/>
-                            </p:selectOneMenu>
-                        </div>
-                    </p:outputPanel>
-                    <f:facet name="footer">
-                        <p:commandButton value="Guardar" icon="pi pi-save" process="ventana-crear @this" actionListener="#{indexControlador.guardarUsuario}"/>
-                        <p:commandButton value="Cancelar" icon="pi pi-times-circle" onclick="PF(ventanaCrearUsuarios).hide(); return false;" class="ui-button-secondary" />
-                    </f:facet>
-                </p:dialog>
-                <p:confirmDialog header="Confirmar" message="Seguro que quiere eliminar este usuario?" height="400">
-
-                </p:confirmDialog>
+                    </div>
+<!--                    Tabla de los usuarios-->
+                    <div class="card">
+                        <p:dataTable id="usuarios-en-linea" var="usuario" value="#{indexControlador.usuarios}" widgetVar="tablaUsuariosPF">
+                            <f:facet name="header">
+                                Tabla de usuarios en el GYM
+                            </f:facet>
+                            <p:column headerText="Id">
+                                <h:outputText value="#{usuario.id}"/>
+                            </p:column>
+                            <p:column headerText="Cedula">
+                                <h:outputText value="#{usuario.cedula}"/>
+                            </p:column>
+                            <p:column headerText="Nombre">
+                                <h:outputText value="#{usuario.nombre}"/>
+                            </p:column>
+                            <p:column headerText="Apellido">
+                                <h:outputText value="#{usuario.apellido}"/>
+                            </p:column>
+                            <p:column headerText="Membresia">
+                                <h:outputText value="#{usuario.membresia}"/>
+                            </p:column>
+                            <p:column>
+                                <p:commandButton value="Editar" icon="pi pi-pencil" update=":formulario-aparicion-clientes:usuarios-en-linea" styleClass="ui-button-raised" style="margin-right: .5rem"/>
+                            </p:column>
+                            <p:column>
+                                <p:commandButton value="Eliminar" icon="pi pi-trash" update=":formulario-aparicion-clientes:usuarios-en-linea" styleClass="ui-button-raised ui-button-danger" />
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+                </p:growl>
             </h:form>
         </div>
     </h:body>

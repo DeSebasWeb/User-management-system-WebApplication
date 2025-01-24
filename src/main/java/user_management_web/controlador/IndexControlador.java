@@ -22,35 +22,20 @@ import java.util.List;
 public class IndexControlador {
     @Autowired
     IUsuarioServicio usuarioServicio;
-    private Usuario usuario;
     private List<Usuario> usuarios;
+    private Usuario usuarioSeleccionado;
 
     private static final Logger logger = LoggerFactory.getLogger(IndexControlador.class);
 
     @PostConstruct
-    public void constructor(){
-        cargarDatos();
+    public void iniciador(){
+        cargarUsuarios();
     }
 
-    public void cargarDatos(){
+    public void cargarUsuarios(){
         this.usuarios = this.usuarioServicio.mostrarUsuarios();
         this.usuarios.forEach(usuario -> logger.info(usuario.toString()));
     }
 
-    public void crearUsuario(){
-        this.usuario = new Usuario();
-    }
-
-    public void guardarUsuario(){
-        logger.info("Usuario a guardar: "+ this.usuario);
-        if (this.usuario.getId()== null){
-            this.usuarioServicio.guardarUsuario(this.usuario);
-            this.usuarios.add(usuario);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Nuevo usuario"));
-        }
-        PrimeFaces.current().executeScript("PF('ventanaCrearUsuarios').hide()");
-        PrimeFaces.current().ajax().update("formulario-usuarios:mensajes", "formulario-usuarios:usuarios-tabla");
-        this.usuario=null;
-    }
 
 }
