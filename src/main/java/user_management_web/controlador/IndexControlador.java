@@ -59,13 +59,14 @@ public class IndexControlador {
     }
 
     public void eliminarUsuario(){
-        if (this.usuarioSeleccionado.getId() != null){
-            logger.info("Usuario a eliminar: "+this.usuarioSeleccionado);
-            this.usuarioServicio.eliminarUsuario(this.usuarioSeleccionado);
-            this.usuarios.remove(this.usuarioSeleccionado);
-            this.usuarioSeleccionado = null;
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Usuario eliminado con exito"));
-            PrimeFaces.current().ajax().update("formulario-aparicion-clientes:mensajes, formulario-aparicion-clientes:usuarios-en-linea");
-        }
+        logger.info("Usuario a eliminar: "+this.usuarioSeleccionado);
+        this.usuarioServicio.eliminarUsuario(this.usuarioSeleccionado);
+
+        this.usuarios.remove(this.usuarioSeleccionado);
+        this.usuarioSeleccionado = null;
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Usuario eliminado con exito"));
+        PrimeFaces.current().executeScript("PF('ventanaConfirmacion').hide()");
+        PrimeFaces.current().ajax().update("formulario-aparicion-clientes:mensajes", " formulario-aparicion-clientes:usuarios-en-linea");
+
     }
 }

@@ -61,6 +61,7 @@
                             <p:column headerText="Membresia">
                                 <h:outputText value="#{usuario.membresia}"/>
                             </p:column>
+<!--                            Boton guardar-->
                             <p:column>
                                 <p:commandButton
                                         value="Editar"
@@ -75,13 +76,18 @@
                                     <p:resetInput target=":formulario-acciones:edicion-cliente"/>
                                 </p:commandButton>
                             </p:column>
+<!--                            Boton eliminar-->
                             <p:column>
                                 <p:commandButton
                                         value="Eliminar"
                                         icon="pi pi-trash"
                                         process="@this"
                                         oncomplete="PF('ventanaConfirmacion').show()"
-                                        styleClass="ui-button-raised ui-button-danger"/>
+                                        styleClass="ui-button-raised ui-button-danger">
+                                    <f:setPropertyActionListener
+                                            value="#{usuario}"
+                                            target="#{indexControlador.usuarioSeleccionado}"/>
+                                </p:commandButton>
                             </p:column>
                         </p:dataTable>
                     </div>
@@ -122,13 +128,14 @@
                 </p:dialog>
 
                 <p:confirmDialog
-                        header="Seguro que quiere eliminar el usuario?"
+                        header="Seguro?"
                         showEffect="fade"
-                        hideEffect="fade" responsive="true"
-                        width="500"
+                        hideEffect="fade"
+                        responsive="true"
+                        width="350"
                         widgetVar="ventanaConfirmacion"
                         severity="warn">
-                    <p:commandButton value="Continuar" icon="pi pi-trash" type="button" class="ui-button-raised" ActionListener="#{indexControlador.eliminarUsuario}" process="@this" oncomplete="PF('ventanaConfirmacion').hide()"/>
+                    <p:commandButton value="Continuar" icon="pi pi-trash"  class="ui-button-raised" actionListener="#{indexControlador.eliminarUsuario}" process="@this"/>
                     <p:commandButton value="No" icon="pi pi-times-circle" class="ui-button-raised ui-button-danger" onclick="PF('ventanaConfirmacion').hide()" />
                 </p:confirmDialog>
 
