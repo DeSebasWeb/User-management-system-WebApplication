@@ -29,7 +29,7 @@
                                     oncomplete="PF('usuarioCrearModificar').show()"/>
 
                             <p:menuitem
-                                    value="Buscar Usuario" icon="pi pi-fw pi-search"/>
+                                    value="Buscar Usuario" icon="pi pi-fw pi-search" actionListener="#{indexControlador.crearUsuario}" onclick="PF('ventanaBuscar').show()"/>
                             <p:menuitem value="Linkedin" icon="pi pi-fw pi-linkedin" url="https://www.linkedin.com/in/sebastián-lópez-304179282/"/>
                             <p:menuitem value="GitHub" icon="pi pi-fw pi-github" url="https://github.com/DeSebasWeb"/>
                         </p:menubar>
@@ -42,7 +42,7 @@
                     </div>
 <!--                    Tabla de los usuarios-->
                     <div class="card">
-                        <p:dataTable id="usuarios-en-linea" var="usuario" value="#{indexControlador.usuarios}" widgetVar="tablaUsuariosPF">
+                        <p:dataTable id="usuarios-en-linea" var="usuario" value="#{indexControlador.usuarios}" widgetVar="tablaUsuarios">
                             <f:facet name="header">
                                 Tabla de usuarios en el GYM
                             </f:facet>
@@ -75,7 +75,6 @@
                                     <p:resetInput target=":formulario-acciones:edicion-cliente"/>
                                 </p:commandButton>
                             </p:column>
-
 <!--                            Boton eliminar-->
                             <p:column>
                                 <p:commandButton
@@ -128,16 +127,41 @@
                 </p:dialog>
 
                 <p:confirmDialog
-                        header="Seguro?"
-                        showEffect="fade"
-                        hideEffect="fade"
-                        responsive="true"
-                        width="350"
-                        widgetVar="ventanaConfirmacion"
-                        severity="warn">
+                        widgetVar="ventanaConfirmacion" header="Seguro?" showEffect="fade" hideEffect="fade" width="300" responsive="true"
+                        severity="warn" message="Quiere eliminar este cliente?">
                     <p:commandButton value="Continuar" icon="pi pi-trash"  class="ui-button-raised" actionListener="#{indexControlador.eliminarUsuario}" process="@this"/>
                     <p:commandButton value="No" icon="pi pi-times-circle" class="ui-button-raised ui-button-danger" onclick="PF('ventanaConfirmacion').hide()"/>
                 </p:confirmDialog>
+
+                <p:dialog header="Buscar un usuario"
+                        showEffect="fade"
+                        hideEffect="fade"
+                        modal="true"
+                        widgetVar="ventanaBuscar"
+                        responsive="true">
+                        <p:outputPanel class="ui-fluid">
+                            <div class="field">
+                                <p:outputLabel for="cedula-buscar">Cedula: </p:outputLabel>
+                                <p:inputNumber id="cedula-buscar" value="#{indexControlador.cedula}" decimalPlaces="0" decimalSeparator="" thousandSeparator=""  minValue="10000" required="true"/>
+                            </div>
+                            <div class="field">
+                                <p:outputLabel for="nombre-buscar">Nombre: </p:outputLabel>
+                                <p:inputText id="nombre-buscar" value="#{indexControlador.usuarioFinal.nombre}"/>
+                            </div>
+                            <div class="field">
+                                <p:outputLabel for="apellido-buscar">Apellido: </p:outputLabel>
+                                <p:inputText id="apellido-buscar" value="#{indexControlador.usuarioFinal.apellido}"/>
+                            </div>
+                            <div class="field">
+                                <p:outputLabel for="membresia-buscar">Membresia: </p:outputLabel>
+                                <p:inputText id="membresia-buscar" value="#{indexControlador.usuarioFinal.membresia}"/>
+                            </div>
+                        </p:outputPanel>
+                        <f:facet name="footer">
+                            <p:commandButton value="Buscar" icon="pi pi-search" />
+                            <p:commandButton value="Cancelar" icon="pi pi-times" styleClass="ui-button-outlined ui-button-danger" onclick="PF('ventanaBuscar').hide()" type="button"/>
+                        </f:facet>
+                </p:dialog>
 
             </h:form>
         </div>

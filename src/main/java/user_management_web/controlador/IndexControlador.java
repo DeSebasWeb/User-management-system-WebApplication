@@ -24,7 +24,8 @@ public class IndexControlador {
     IUsuarioServicio usuarioServicio;
     private List<Usuario> usuarios;
     private Usuario usuarioSeleccionado;
-
+    private Integer cedula;
+    private Usuario usuarioFinal;
     private static final Logger logger = LoggerFactory.getLogger(IndexControlador.class);
 
     @PostConstruct
@@ -66,6 +67,18 @@ public class IndexControlador {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Usuario eliminado con exito"));
         PrimeFaces.current().executeScript("PF('ventanaConfirmacion').hide()");
         PrimeFaces.current().ajax().update("formulario-aparicion-clientes:mensajes", " formulario-aparicion-clientes:usuarios-en-linea");
+    }
 
+    public void buscarUsuario(){
+        if (this.cedula == null){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Introduzca la cedula del usuario a buscar"));
+        }else {
+            Usuario siUsuario = this.usuarioServicio.buscarUsuario(this.cedula);
+            if(siUsuario!= null){
+                Usuario usuarioFinal = siUsuario;
+            }else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("El usuario que busca no existe"));
+            }
+        }
     }
 }
