@@ -38,7 +38,6 @@ public class IndexControlador {
     }
 
     public void crearUsuario(){
-
         this.usuarioSeleccionado = new Usuario();
     }
 

@@ -61,21 +61,21 @@
                             <p:column headerText="Membresia">
                                 <h:outputText value="#{usuario.membresia}"/>
                             </p:column>
-<!--                            Boton guardar-->
+<!--                            Boton editar-->
                             <p:column>
                                 <p:commandButton
                                         value="Editar"
                                         icon="pi pi-pencil"
-                                        update=":formulario-aparicion-clientes:usuarios-en-linea"
+                                        update=":formulario-acciones:edicion-cliente"
                                         process="@this" oncomplete="PF('usuarioCrearModificar').show()"
                                         styleClass="ui-button-raised" style="margin-right: .5rem">
-
                                     <f:setPropertyActionListener
                                             value="#{usuario}"
                                             target="#{indexControlador.usuarioSeleccionado}"/>
                                     <p:resetInput target=":formulario-acciones:edicion-cliente"/>
                                 </p:commandButton>
                             </p:column>
+
 <!--                            Boton eliminar-->
                             <p:column>
                                 <p:commandButton
@@ -136,7 +136,7 @@
                         widgetVar="ventanaConfirmacion"
                         severity="warn">
                     <p:commandButton value="Continuar" icon="pi pi-trash"  class="ui-button-raised" actionListener="#{indexControlador.eliminarUsuario}" process="@this"/>
-                    <p:commandButton value="No" icon="pi pi-times-circle" class="ui-button-raised ui-button-danger" onclick="PF('ventanaConfirmacion').hide()" />
+                    <p:commandButton value="No" icon="pi pi-times-circle" class="ui-button-raised ui-button-danger" onclick="PF('ventanaConfirmacion').hide()"/>
                 </p:confirmDialog>
 
             </h:form>
