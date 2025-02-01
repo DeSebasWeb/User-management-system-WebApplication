@@ -168,10 +168,17 @@
 
                             <div class="field">
                                 <div class="flex justify-content-between gap-3" >
-                                    <p:commandButton value="Guardar" icon="pi pi-pencil" styleClass="ui-button-raised" process="@this formulario-buscar-usuarios" actionListener="#{indexControlador.guardarUsuario}" onclick="PF('ventanaBuscar').hide()">
+                                    <p:commandButton value="Guardar" icon="pi pi-pencil"
+                                                     styleClass="ui-button-raised"
+                                                     process="formulario-buscar-usuarios @this"
+                                                     actionListener="#{indexControlador.guardarUsuario}"
+                                                     onclick="PF('ventanaBuscar').hide()" update=":formulario-aparicion-clientes:usuarios-en-linea">
                                         <p:resetInput target=":formulario-acciones:edicion-cliente"/>
                                     </p:commandButton>
-                                    <p:commandButton value="Eliminar" icon="pi pi-trash" styleClass="ui-button-raised ui-button-danger"/>
+
+                                    <p:commandButton value="Eliminar" icon="pi pi-trash" styleClass="ui-button-raised ui-button-danger"
+                                            process="formulario-buscar-usuarios @this"
+                                            oncomplete="PF('ventanaConfirmacion').show()"/>
                                     <p:commandButton value="Cancelar" icon="pi pi-times" styleClass="ui-button-outlined ui-button-danger" onclick="PF('ventanaBuscar').hide()" type="button"/>
                                 </div>
                             </div>

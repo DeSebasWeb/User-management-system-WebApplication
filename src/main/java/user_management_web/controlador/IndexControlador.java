@@ -25,7 +25,6 @@ public class IndexControlador {
     private List<Usuario> usuarios;
     private Usuario usuarioSeleccionado;
     private Integer cedula;
-    private Usuario usuarioFinal;
     private static final Logger logger = LoggerFactory.getLogger(IndexControlador.class);
 
     @PostConstruct
@@ -66,8 +65,9 @@ public class IndexControlador {
         this.usuarios.remove(this.usuarioSeleccionado);
         this.usuarioSeleccionado = null;
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Usuario eliminado con exito"));
-        PrimeFaces.current().executeScript("PF('ventanaConfirmacion').hide()");
         PrimeFaces.current().ajax().update("formulario-aparicion-clientes:mensajes", "formulario-aparicion-clientes:usuarios-en-linea");
+        PrimeFaces.current().executeScript("PF('ventanaConfirmacion').hide()");
+        PrimeFaces.current().executeScript("PF('ventanaBuscar').hide()");
         this.usuarioSeleccionado = null;
         this.cedula = null;
     }
@@ -85,7 +85,6 @@ public class IndexControlador {
             }else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("El usuario que busca no existe"));
             }
-
         }
     }
 }
