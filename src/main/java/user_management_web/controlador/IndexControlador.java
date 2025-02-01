@@ -56,6 +56,7 @@ public class IndexControlador {
         PrimeFaces.current().executeScript("PF('usuarioCrearModificar').hide()");
         PrimeFaces.current().ajax().update("formulario-aparicion-clientes:mensajes","formulario-aparicion-clientes:usuarios-en-linea");
         this.usuarioSeleccionado = null;
+        this.cedula = null;
     }
 
     public void eliminarUsuario(){
@@ -66,19 +67,25 @@ public class IndexControlador {
         this.usuarioSeleccionado = null;
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Usuario eliminado con exito"));
         PrimeFaces.current().executeScript("PF('ventanaConfirmacion').hide()");
-        PrimeFaces.current().ajax().update("formulario-aparicion-clientes:mensajes", " formulario-aparicion-clientes:usuarios-en-linea");
+        PrimeFaces.current().ajax().update("formulario-aparicion-clientes:mensajes", "formulario-aparicion-clientes:usuarios-en-linea");
+        this.usuarioSeleccionado = null;
+        this.cedula = null;
     }
 
     public void buscarUsuario(){
         if (this.cedula == null){
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Introduzca la cedula del usuario a buscar"));
+            PrimeFaces.current().ajax().update("formulario-aparicion-clientes:mensajes");
         }else {
-            Usuario siUsuario = this.usuarioServicio.buscarUsuario(this.cedula);
-            if(siUsuario!= null){
-                Usuario usuarioFinal = siUsuario;
+            this.usuarioSeleccionado = this.usuarioServicio.buscarUsuario(this.cedula);
+            if(usuarioSeleccionado!= null){
+                PrimeFaces.current().ajax().update("formulario-buscar-usuarios");
+                logger.info("nombre: "+usuarioSeleccionado.getNombre());
+                logger.info("Usuario encontrado: "+usuarioSeleccionado);
             }else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("El usuario que busca no existe"));
             }
+
         }
     }
 }

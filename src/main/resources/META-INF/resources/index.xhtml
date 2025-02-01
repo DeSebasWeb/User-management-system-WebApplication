@@ -29,7 +29,7 @@
                                     oncomplete="PF('usuarioCrearModificar').show()"/>
 
                             <p:menuitem
-                                    value="Buscar Usuario" icon="pi pi-fw pi-search" actionListener="#{indexControlador.crearUsuario}" onclick="PF('ventanaBuscar').show()"/>
+                                    value="Buscar Usuario" icon="pi pi-fw pi-search" onclick="PF('ventanaBuscar').show()"/>
                             <p:menuitem value="Linkedin" icon="pi pi-fw pi-linkedin" url="https://www.linkedin.com/in/sebastián-lópez-304179282/"/>
                             <p:menuitem value="GitHub" icon="pi pi-fw pi-github" url="https://github.com/DeSebasWeb"/>
                         </p:menubar>
@@ -92,6 +92,7 @@
                     </div>
             </h:form>
             <h:form id="formulario-acciones">
+<!--                Editar o modificar usuarios-->
                 <p:dialog
                         header="Detalles de los usuarios"
                         showEffect="fade"
@@ -132,48 +133,50 @@
                     <p:commandButton value="Continuar" icon="pi pi-trash"  class="ui-button-raised" actionListener="#{indexControlador.eliminarUsuario}" process="@this"/>
                     <p:commandButton value="No" icon="pi pi-times-circle" class="ui-button-raised ui-button-danger" onclick="PF('ventanaConfirmacion').hide()"/>
                 </p:confirmDialog>
-
+<!--                Buscar usuarios-->
                 <p:dialog header="Buscar un usuario"
                         showEffect="fade"
                         hideEffect="fade"
                         modal="true"
                         widgetVar="ventanaBuscar"
                         responsive="true">
-                        <p:outputPanel class="ui-fluid">
+                        <p:outputPanel id="formulario-buscar-usuarios" class="ui-fluid">
                             <div class="field">
-                                <p:outputLabel for="cedula-buscar">Cedula: </p:outputLabel>
+                                <p:outputLabel for="cedula-buscar">Cedula:  </p:outputLabel>
                                 <p:inputNumber id="cedula-buscar" value="#{indexControlador.cedula}" decimalPlaces="0" decimalSeparator="" thousandSeparator=""  minValue="10000" required="true"/>
                             </div>
                             <div class="field">
-                                <p:commandButton value="Buscar" icon="pi pi-search" styleClass="ui-button-outlined" />
+                                <p:commandButton value="Buscar"
+                                                 icon="pi pi-search"
+                                                 styleClass="ui-button-outlined"
+                                                 process="@this cedula-buscar"
+                                                 actionListener="#{indexControlador.buscarUsuario}"
+                                                 update="formulario-buscar-usuarios"/>
                             </div>
                             <div class="field">
                                 <p:outputLabel for="nombre-buscar">Nombre: </p:outputLabel>
-                                <p:inputText id="nombre-buscar" value="#{indexControlador.usuarioFinal.nombre}"/>
+                                <p:inputText id="nombre-buscar" value="#{indexControlador.usuarioSeleccionado.nombre}"/>
                             </div>
                             <div class="field">
                                 <p:outputLabel for="apellido-buscar">Apellido: </p:outputLabel>
-                                <p:inputText id="apellido-buscar" value="#{indexControlador.usuarioFinal.apellido}"/>
+                                <p:inputText id="apellido-buscar" value="#{indexControlador.usuarioSeleccionado.apellido}"/>
                             </div>
                             <div class="field">
                                 <p:outputLabel for="membresia-buscar">Membresia: </p:outputLabel>
-                                <p:inputText id="membresia-buscar" value="#{indexControlador.usuarioFinal.membresia}"/>
+                                <p:inputText id="membresia-buscar" value="#{indexControlador.usuarioSeleccionado.membresia}"/>
                             </div>
 
                             <div class="field">
-                                <div class="grid">
-                                    <div class="col">
-                                        <p:commandButton value="Editar" icon="pi pi-pencil" styleClass="rounded-button"/>
-                                    </div>
-                                    <div class="col">
-                                        <p:commandButton value="Eliminar" icon="pi pi-trash" styleClass="rounded-button ui-button-danger"/>
-                                    </div>
+                                <div class="flex justify-content-between gap-3" >
+                                    <p:commandButton value="Guardar" icon="pi pi-pencil" styleClass="ui-button-raised" process="@this formulario-buscar-usuarios" actionListener="#{indexControlador.guardarUsuario}" onclick="PF('ventanaBuscar').hide()">
+                                        <p:resetInput target=":formulario-acciones:edicion-cliente"/>
+                                    </p:commandButton>
+                                    <p:commandButton value="Eliminar" icon="pi pi-trash" styleClass="ui-button-raised ui-button-danger"/>
+                                    <p:commandButton value="Cancelar" icon="pi pi-times" styleClass="ui-button-outlined ui-button-danger" onclick="PF('ventanaBuscar').hide()" type="button"/>
                                 </div>
                             </div>
                         </p:outputPanel>
-                        <f:facet name="footer">
-                            <p:commandButton value="Cancelar" icon="pi pi-times" styleClass="ui-button-outlined ui-button-danger" onclick="PF('ventanaBuscar').hide()" type="button"/>
-                        </f:facet>
+
                 </p:dialog>
 
             </h:form>
