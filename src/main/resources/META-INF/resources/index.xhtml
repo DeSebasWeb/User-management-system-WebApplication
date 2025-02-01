@@ -145,6 +145,9 @@
                                 <p:inputNumber id="cedula-buscar" value="#{indexControlador.cedula}" decimalPlaces="0" decimalSeparator="" thousandSeparator=""  minValue="10000" required="true"/>
                             </div>
                             <div class="field">
+                                <p:commandButton value="Buscar" icon="pi pi-search" styleClass="ui-button-outlined" />
+                            </div>
+                            <div class="field">
                                 <p:outputLabel for="nombre-buscar">Nombre: </p:outputLabel>
                                 <p:inputText id="nombre-buscar" value="#{indexControlador.usuarioFinal.nombre}"/>
                             </div>
@@ -156,9 +159,19 @@
                                 <p:outputLabel for="membresia-buscar">Membresia: </p:outputLabel>
                                 <p:inputText id="membresia-buscar" value="#{indexControlador.usuarioFinal.membresia}"/>
                             </div>
+
+                            <div class="field">
+                                <div class="grid">
+                                    <div class="col">
+                                        <p:commandButton value="Editar" icon="pi pi-pencil" styleClass="rounded-button"/>
+                                    </div>
+                                    <div class="col">
+                                        <p:commandButton value="Eliminar" icon="pi pi-trash" styleClass="rounded-button ui-button-danger"/>
+                                    </div>
+                                </div>
+                            </div>
                         </p:outputPanel>
                         <f:facet name="footer">
-                            <p:commandButton value="Buscar" icon="pi pi-search" />
                             <p:commandButton value="Cancelar" icon="pi pi-times" styleClass="ui-button-outlined ui-button-danger" onclick="PF('ventanaBuscar').hide()" type="button"/>
                         </f:facet>
                 </p:dialog>
