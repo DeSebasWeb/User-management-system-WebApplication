@@ -25,6 +25,7 @@ public class IndexControlador {
     private List<Usuario> usuarios;
     private Usuario usuarioSeleccionado;
     private Integer cedula;
+    private Usuario usuarioEncontrado;
     private static final Logger logger = LoggerFactory.getLogger(IndexControlador.class);
 
     @PostConstruct
@@ -58,33 +59,51 @@ public class IndexControlador {
         this.cedula = null;
     }
 
-    public void eliminarUsuario(){
-        logger.info("Usuario a eliminar: "+this.usuarioSeleccionado);
-        this.usuarioServicio.eliminarUsuario(this.usuarioSeleccionado);
-
-        this.usuarios.remove(this.usuarioSeleccionado);
-        this.usuarioSeleccionado = null;
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Usuario eliminado con exito"));
-        PrimeFaces.current().ajax().update("formulario-aparicion-clientes:mensajes", "formulario-aparicion-clientes:usuarios-en-linea");
-        PrimeFaces.current().executeScript("PF('ventanaConfirmacion').hide()");
-        PrimeFaces.current().executeScript("PF('ventanaBuscar').hide()");
+    public void cancelar(){
         this.usuarioSeleccionado = null;
         this.cedula = null;
+        PrimeFaces.current().ajax().update("formulario-acciones");
+    }
+
+    public void eliminarUsuario(){
+        if (this.usuarioSeleccionado !=null){
+            logger.info("Usuario a eliminar: "+this.usuarioSeleccionado);
+            this.usuarioServicio.eliminarUsuario(this.usuarioSeleccionado);
+            this.usuarios.remove(this.usuarioSeleccionado);
+            this.usuarioSeleccionado = null;
+        }else if (this.usuarioEncontrado!= null){
+            logger.info("Usuario a eliminar: "+this.usuarioEncontrado);
+            this.usuarioServicio.eliminarUsuario(this.usuarioEncontrado);
+            this.usuarios.remove(this.usuarioEncontrado);
+            this.usuarioEncontrado = null;
+            this.cedula = null;
+
+        }
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Usuario eliminado con exito"));
+        PrimeFaces.current().executeScript("PF('ventanaConfirmacion').hide()");
+        PrimeFaces.current().executeScript("PF('ventanaBuscar').hide()");
+        PrimeFaces.current().ajax().update("formulario-aparicion-clientes:mensajes", "formulario-aparicion-clientes:usuarios-en-linea", "formulario-acciones:formulario-buscar-usuarios");
     }
 
     public void buscarUsuario(){
-        if (this.cedula == null){
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Introduzca la cedula del usuario a buscar"));
+        this.usuarioEncontrado = this.usuarioServicio.buscarUsuario(this.cedula);
+        if(usuarioEncontrado!= null){
+            PrimeFaces.current().ajax().update("formulario-buscar-usuarios");
+            logger.info("nombre: "+usuarioEncontrado.getNombre());
+            logger.info("Usuario encontrado: "+usuarioEncontrado);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("El usuario ha sido encontrado:"));
+            this.cedula = null;
             PrimeFaces.current().ajax().update("formulario-aparicion-clientes:mensajes");
         }else {
-            this.usuarioSeleccionado = this.usuarioServicio.buscarUsuario(this.cedula);
-            if(usuarioSeleccionado!= null){
-                PrimeFaces.current().ajax().update("formulario-buscar-usuarios");
-                logger.info("nombre: "+usuarioSeleccionado.getNombre());
-                logger.info("Usuario encontrado: "+usuarioSeleccionado);
-            }else {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("El usuario que busca no existe"));
-            }
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("El usuario que busca no existe"));
+            this.cedula =null;
+            PrimeFaces.current().ajax().update("formulario-aparicion-clientes:mensajes");
         }
+    }
+
+    public void editarUsuario(){
+        this.usuarioServicio.guardarUsuario(this.usuarioSeleccionado);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Usuario actualizado"));
+        PrimeFaces.current().executeScript("PF('ventanaBuscar').hide()");
     }
 }

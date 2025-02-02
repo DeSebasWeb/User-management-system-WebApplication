@@ -127,13 +127,15 @@
                     </f:facet>
                 </p:dialog>
 
+<!--                Ventana confirmacion borrar-->
                 <p:confirmDialog
                         widgetVar="ventanaConfirmacion" header="Seguro?" showEffect="fade" hideEffect="fade" width="300" responsive="true"
                         severity="warn" message="Quiere eliminar este cliente?">
                     <p:commandButton value="Continuar" icon="pi pi-trash"  class="ui-button-raised" actionListener="#{indexControlador.eliminarUsuario}" process="@this"/>
                     <p:commandButton value="No" icon="pi pi-times-circle" class="ui-button-raised ui-button-danger" onclick="PF('ventanaConfirmacion').hide()"/>
                 </p:confirmDialog>
-<!--                Buscar usuarios-->
+
+<!--                Ventana Buscar usuarios-->
                 <p:dialog header="Buscar un usuario"
                         showEffect="fade"
                         hideEffect="fade"
@@ -155,17 +157,21 @@
                             </div>
                             <div class="field">
                                 <p:outputLabel for="nombre-buscar">Nombre: </p:outputLabel>
-                                <p:inputText id="nombre-buscar" value="#{indexControlador.usuarioSeleccionado.nombre}"/>
+                                <p:inputText id="nombre-buscar" value="#{indexControlador.usuarioEncontrado.nombre}"/>
                             </div>
                             <div class="field">
                                 <p:outputLabel for="apellido-buscar">Apellido: </p:outputLabel>
-                                <p:inputText id="apellido-buscar" value="#{indexControlador.usuarioSeleccionado.apellido}"/>
+                                <p:inputText id="apellido-buscar" value="#{indexControlador.usuarioEncontrado.apellido}"/>
                             </div>
                             <div class="field">
-                                <p:outputLabel for="membresia-buscar">Membresia: </p:outputLabel>
-                                <p:inputText id="membresia-buscar" value="#{indexControlador.usuarioSeleccionado.membresia}"/>
+                                <p:outputLabel for="membresia-buscar">Membresia:</p:outputLabel>
+                                <p:selectOneMenu id="membresia-buscar" value="#{indexControlador.usuarioEncontrado.membresia}" required="true">
+                                    <f:selectItem itemLabel="Seleccione una opción" itemValue=""/>
+                                    <f:selectItem itemLabel="Basico" itemValue="Basico"/>
+                                    <f:selectItem itemLabel="Premium" itemValue="Premium"/>
+                                </p:selectOneMenu>
                             </div>
-
+<!--                            Botones de eliminar y editar en ventana buscar-->
                             <div class="field">
                                 <div class="flex justify-content-between gap-3" >
                                     <p:commandButton value="Guardar" icon="pi pi-pencil"
@@ -179,7 +185,7 @@
                                     <p:commandButton value="Eliminar" icon="pi pi-trash" styleClass="ui-button-raised ui-button-danger"
                                             process="formulario-buscar-usuarios @this"
                                             oncomplete="PF('ventanaConfirmacion').show()"/>
-                                    <p:commandButton value="Cancelar" icon="pi pi-times" styleClass="ui-button-outlined ui-button-danger" onclick="PF('ventanaBuscar').hide()" type="button"/>
+                                    <p:commandButton value="Cancelar" icon="pi pi-times" styleClass="ui-button-outlined ui-button-danger" onclick="PF('ventanaBuscar').hide()"  type="button"/>
                                 </div>
                             </div>
                         </p:outputPanel>
