@@ -73,6 +73,7 @@ public class IndexControlador {
             PrimeFaces.current().ajax().update("formulario-aparicion-clientes:mensajes");
             this.usuarioEncontrado = null;
         }
+        this.cedula = null;
     }
 
     public void guardarUsuario(){

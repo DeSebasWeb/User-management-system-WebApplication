@@ -16,7 +16,7 @@
                     <div class="card">
                         <p:menubar hideDelay="1000">
                             <f:facet name="start">
-                                <p:graphicImage name="images/Logo1.png" library="images" style="width: 50px; height: 50px;"/>
+                                <h:graphicImage value="#{request.contextPath}/resources/images/Logo1.png" style="width: 50px; height: 50px;"/>
                             </f:facet>
                             <p:menuitem
                                     value="Usuarios" icon="pi pi-fw pi-user"
@@ -29,7 +29,10 @@
                                     oncomplete="PF('usuarioCrearModificar').show()"/>
 
                             <p:menuitem
-                                    value="Buscar Usuario" icon="pi pi-fw pi-search" actionListener="#{indexControlador.crearUsuario}" update=":formulario-acciones:formulario-buscar-usuarios" oncomplete="PF('ventanaBuscar').show()"/>
+                                    value="Buscar Usuario" icon="pi pi-fw pi-search"
+                                    actionListener="#{indexControlador.crearUsuario}"
+                                    update=":formulario-acciones:formulario-buscar-usuarios"
+                                    oncomplete="PF('ventanaBuscar').show()"/>
                             <p:menuitem value="Linkedin" icon="pi pi-fw pi-linkedin" url="https://www.linkedin.com/in/sebastián-lópez-304179282/"/>
                             <p:menuitem value="GitHub" icon="pi pi-fw pi-github" url="https://github.com/DeSebasWeb"/>
                         </p:menubar>
