@@ -16,7 +16,7 @@
                     <div class="card">
                         <p:menubar hideDelay="1000">
                             <f:facet name="start">
-                                <p:graphicImage name="resources/Logo1.png" library="resources" style="width: 50px; height: 50px;"/>
+                                <p:graphicImage name="images/Logo1.png" library="images" style="width: 50px; height: 50px;"/>
                             </f:facet>
                             <p:menuitem
                                     value="Usuarios" icon="pi pi-fw pi-user"
@@ -25,11 +25,11 @@
                             <p:menuitem
                                     value="Usuario nuevo" icon="pi pi-fw pi-user-plus"
                                     actionListener="#{indexControlador.crearUsuario}"
-                                    update=":formulario-aparicion-clientes:usuarios-en-linea"
+                                    update=":formulario-acciones:edicion-cliente"
                                     oncomplete="PF('usuarioCrearModificar').show()"/>
 
                             <p:menuitem
-                                    value="Buscar Usuario" icon="pi pi-fw pi-search" onclick="PF('ventanaBuscar').show()"/>
+                                    value="Buscar Usuario" icon="pi pi-fw pi-search" actionListener="#{indexControlador.crearUsuario}" update=":formulario-acciones:formulario-buscar-usuarios" oncomplete="PF('ventanaBuscar').show()"/>
                             <p:menuitem value="Linkedin" icon="pi pi-fw pi-linkedin" url="https://www.linkedin.com/in/sebastián-lópez-304179282/"/>
                             <p:menuitem value="GitHub" icon="pi pi-fw pi-github" url="https://github.com/DeSebasWeb"/>
                         </p:menubar>
@@ -92,13 +92,14 @@
                     </div>
             </h:form>
             <h:form id="formulario-acciones">
-<!--                Editar o modificar usuarios-->
+<!--                Editar o crear usuarios-->
                 <p:dialog
                         header="Detalles de los usuarios"
                         showEffect="fade"
                         modal="true"
                         widgetVar="usuarioCrearModificar"
-                        responsive="true">
+                        responsive="true"
+                        >
                     <p:outputPanel id="edicion-cliente" class="ui-fluid">
                         <div class="field">
                             <p:outputLabel for="cedula">Cedula:</p:outputLabel>
@@ -144,7 +145,7 @@
                         responsive="true">
                         <p:outputPanel id="formulario-buscar-usuarios" class="ui-fluid">
                             <div class="field">
-                                <p:outputLabel for="cedula-buscar">Cedula:  </p:outputLabel>
+                                <p:outputLabel for="cedula-buscar">Cedula:</p:outputLabel>
                                 <p:inputNumber id="cedula-buscar" value="#{indexControlador.cedula}" decimalPlaces="0" decimalSeparator="" thousandSeparator=""  minValue="10000" required="true"/>
                             </div>
                             <div class="field">
@@ -173,25 +174,33 @@
                             </div>
 <!--                            Botones de eliminar y editar en ventana buscar-->
                             <div class="field">
-                                <div class="flex justify-content-between gap-3" >
-                                    <p:commandButton value="Guardar" icon="pi pi-pencil"
-                                                     styleClass="ui-button-raised"
-                                                     process="formulario-buscar-usuarios @this"
-                                                     actionListener="#{indexControlador.guardarUsuario}"
-                                                     onclick="PF('ventanaBuscar').hide()" update=":formulario-aparicion-clientes:usuarios-en-linea">
-                                        <p:resetInput target=":formulario-acciones:edicion-cliente"/>
-                                    </p:commandButton>
+                                <div class="flex justify-content-between gap-3">
+<!--                                    Cambio en el process "@this"-->
 
+                                    <p:commandButton value="Guardar" icon="pi pi-pencil" styleClass="ui-button-raised"
+                                                     process="@this formulario-buscar-usuarios"
+                                                     update=":formulario-aparicion-clientes:usuarios-en-linea"
+                                                     oncomplete="PF('ventanaConfirmacionEdicion').show()">
+                                        <p:resetInput target=":formulario-acciones:formulario-buscar-usuarios"/>
+                                    </p:commandButton>
+<!--                                        Cambio en el process "@this"-->
                                     <p:commandButton value="Eliminar" icon="pi pi-trash" styleClass="ui-button-raised ui-button-danger"
-                                            process="formulario-buscar-usuarios @this"
-                                            oncomplete="PF('ventanaConfirmacion').show()"/>
+                                                     process="@this formulario-buscar-usuarios"
+                                                     oncomplete="PF('ventanaConfirmacion').show()">
+                                            <p:resetInput target=":formulario-acciones:formulario-buscar-usuarios"/>
+                                    </p:commandButton>
                                     <p:commandButton value="Cancelar" icon="pi pi-times" styleClass="ui-button-outlined ui-button-danger" onclick="PF('ventanaBuscar').hide()"  type="button"/>
                                 </div>
                             </div>
                         </p:outputPanel>
-
                 </p:dialog>
-
+<!--                Ventana confirmacion edicion-->
+                <p:confirmDialog
+                        widgetVar="ventanaConfirmacionEdicion" header="Seguro desea editar?" showEffect="fade" hideEffect="fade" width="300" responsive="true"
+                        severity="warn" message="Quiere editar este cliente?">
+                    <p:commandButton value="Continuar" icon="pi pi-trash"  class="ui-button-raised" actionListener="#{indexControlador.editarUsuario}" process="@this"/>
+                    <p:commandButton value="No" icon="pi pi-times-circle" class="ui-button-raised ui-button-danger" onclick="PF('ventanaConfirmacionEdicion').hide()"/>
+                </p:confirmDialog>
             </h:form>
         </div>
     </h:body>
