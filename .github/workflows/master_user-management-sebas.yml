@@ -52,15 +52,14 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_78C47EAB68DC403BA5BBC13EC25097AE }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_8A4B2D6DCF414757ABA865E712389DA9 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_F5B829EAD04C4D7AA0C2F1C1964DAA7D }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_97A935580B5D4ACF98FCB13F5DDC8B00 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_DFC73E449DF645178AB57706BA4C8F15 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_E266E35234484D1787FDFF206D598E9C }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'user-management-sebas'
-          slot-name: 'Production'
           package: '*.jar'
           
